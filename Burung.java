@@ -10,11 +10,14 @@ public class Burung extends Actor
 {
     //General Attribute
     private int speed = 3;
+    private Status status;
     private World world;
     private boolean isEnergyWorld;
     private GreenfootImage lose;
     private GreenfootImage win;
     private boolean hasEnd = false;
+    private GreenfootSound musik;
+    private boolean isMusicPlaying = false;
 
     //Spawn Related
     private int xSpawnPosition;
@@ -35,12 +38,47 @@ public class Burung extends Actor
     public Burung(){
         prepareImage();
     }
+    
+    public Burung(World world, Status status, boolean isEnergyWorld){
+        this.world = world;
+        this.status = status;
+        this.isEnergyWorld = isEnergyWorld;
+        prepareImage();
+    }
     public void act() 
     {
+        if(!hasSpawnPosition) setSpawnPosition();
+        if(hasEnd){
+            if(status.isWin()){
+                win();
+            }
+            else{
+                lose();
+        }
+        }      
         movement();
         animate();
-        
-    }    
+        checkCollision();
+        if(status.isWin() || status.isLose()) hasEnd = true;
+    }  
+    
+    private void setSpawnPosition(){
+        xSpawnPosition = getX();
+        ySpawnPosition = getY();
+        hasSpawnPosition = true;
+    }
+    
+    private void lose(){
+        setImage(lose);
+        setLocation(world.getWidth()/2, world.getHeight()/2);
+       
+    }
+
+    private void win(){
+       setImage(win);
+        setLocation(world.getWidth()/2, world.getHeight()/2);
+  
+    }
     
     private void movement(){
         if(Greenfoot.isKeyDown("A")){
@@ -61,8 +99,66 @@ public class Burung extends Actor
             this.setLocation(getX(), getY()+speed);
             flyCounter++;
         }
-
+        
+        if(flyCounter >= flyThreshold){
+            status.decreaseEnergy();
+            flyCounter = 0;
+        }
+        
+       
     
+    }
+    
+    private void checkCollision(){
+        Makanan makanan = (Makanan)getOneIntersectingObject(Makanan.class);
+        Predator predator = (Predator)getOneIntersectingObject(Predator.class);
+        if(makanan != null){
+            status.increaseEnergy(makanan.energyValue);
+            status.increaseScore(makanan.energyValue);
+            if(makanan.isCacing()) status.increaseWormEaten();
+        }
+        if(predator != null){
+            predator.respawn();   respawn();
+            status.decreaseLives(2);
+        }
+        if(isTouching(BirdWall.class)){
+            Greenfoot.playSound("kena.mp3");
+            respawn();
+            status.decreaseLives(1);
+        }
+        if(isTouching(EnergyWall.class)){
+            Greenfoot.playSound("kena.mp3");
+            respawn();
+       
+        }
+        if(isTouching(Pohon.class)){
+            if(Greenfoot.isKeyDown("Enter")){
+                if(isEnergyWorld){
+            ((EnergyWorld)world).showText("Press Enter" , 250, 250);
+        }else{
+            ((BirdWorld)world).showText("Press Enter" , 250, 250);
+        } 
+               
+            changeWorld();
+        }
+            
+        }
+    }
+    
+    private void changeWorld(){
+        if(isEnergyWorld){
+            ((EnergyWorld)world).stopMusic();
+            Greenfoot.setWorld(new BirdWorld(status));
+            return;
+        }else{
+            ((BirdWorld)world).stopMusic();
+            Greenfoot.setWorld(new EnergyWorld(status));
+            return;
+        }
+    }
+    
+    private void respawn(){
+        setLocation(xSpawnPosition, ySpawnPosition);
     }
 
     private void prepareImage(){
@@ -83,6 +179,8 @@ public class Burung extends Actor
             for(int j = 5 ; j < 8 ; j++){
                 sprites[i][j] = new GreenfootImage("/Burung/bird" + facing + (9-j) + ".png");
             }
+             lose = new GreenfootImage("YouLose.png");
+             win = new GreenfootImage("YouWin.png");
         }
   
     }

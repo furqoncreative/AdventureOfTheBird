@@ -7,13 +7,50 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @version (a version number or a date)
  */
 public class Kucing extends Predator
-{
-    /**
-     * Act - do whatever the Kucing wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
-    public void act() 
-    {
-        // Add your action code here.
-    }    
+{   
+    private static final int TURN_DURATION = 1500;
+    private static final int TOTAL_SPRITE = 3;
+    private int SPEED = 2;
+    
+    public Kucing(){
+    }
+
+    public Kucing(World world){
+        super(world, TURN_DURATION);
+        prepareImage();
+        try{
+            if(((BirdWorld)world).status.isDarksoulMode){
+                SPEED++;
+            }
+        }catch(ClassCastException e){
+            //Nothing to do here lol
+        }
+    }
+
+    public void act(){
+        behaviour(SPEED);
+    }
+
+    private void prepareImage(){
+        String facing;
+        sprites = new GreenfootImage[4][TOTAL_SPRITE];
+        for(int i = 0; i < 4 ; i++){
+            switch(i){
+                case 0:
+                    facing = "right";
+                    break;
+                case 1:
+                    facing = "right";
+                    break;
+                case 2:
+                    facing = "left";
+                    break;
+                default:
+                    facing = "left";
+            }
+            for(int j = 0 ; j < TOTAL_SPRITE ; j++){
+                sprites[i][j] = new GreenfootImage("/Kucing/cat" + facing + (j+1) + ".png");
+            }
+        }
+    }
 }

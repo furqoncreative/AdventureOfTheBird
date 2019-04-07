@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.target=EnergyWorld
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ EnergyWorld\ here.\r\n\ \r\n\ @author\ (your\ name)\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment1.params=
+comment1.target=EnergyWorld()
+comment2.params=status
+comment2.target=EnergyWorld(Status)
+comment3.params=
+comment3.target=void\ act()
+comment4.params=
+comment4.target=void\ createWallLayout()
+comment5.params=
+comment5.target=void\ firstSpawn()
+comment6.params=
+comment6.target=void\ stopMusic()
+numComments=7

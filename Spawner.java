@@ -3,21 +3,51 @@ import java.util.List;
 
 public class Spawner{
     private World world;
-    private boolean isEnergyWorld;
- 
+    private boolean isBirdWorld;
+    private Status status;
+
     public Spawner(){
     }
     public Spawner(World world){
         this.world = world;
     }
- 
+    public Spawner(EnergyWorld world){
+        this.world = (World)world;
+        isBirdWorld = false;
+    }
     public Spawner(BirdWorld world){
         this.world = (World)world;
-        isEnergyWorld = false;
+        isBirdWorld = true;
+    }
+
+    public void spawnBurung(Status status, boolean isBirdWorld){
+        randomSpawn(new Burung(world, status, isBirdWorld));
     }
     
- 
+    public void spawnUlar(){
+        randomSpawn(new Ular(world));
+    }
+    
+    public void spawnApel(){
+        randomSpawn(new Apel(world));
+    }
 
+    public void spawnPisang(){
+        randomSpawn(new Pisang(world));
+    }
+
+    public void spawnPepaya(){
+        randomSpawn(new Pepaya(world));
+    }
+
+
+    public void spawnKucing(){
+        randomSpawn(new Kucing(world));
+    }
+    
+    public void spawnCacing(){
+        randomSpawn(new Cacing(world));
+    }
     
     private void randomSpawn(Actor act){
        while(true){
