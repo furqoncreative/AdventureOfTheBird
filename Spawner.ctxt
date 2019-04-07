@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.target=Spawner
+comment1.params=
+comment1.target=Spawner()
+comment2.params=world
+comment2.target=Spawner(greenfoot.World)
+comment3.params=world
+comment3.target=Spawner(BirdWorld)
+comment4.params=act
+comment4.target=void\ randomSpawn(greenfoot.Actor)
+comment5.params=x\ y
+comment5.target=boolean\ isValidLocation(int,\ int)
+numComments=6

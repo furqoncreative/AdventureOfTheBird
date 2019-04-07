@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.target=BirdWorld
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ BirdWorld\ here.\r\n\ \r\n\ @author\ (Deden\ muhamad\ Furqon)\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment1.params=
+comment1.target=BirdWorld()
+comment2.params=
+comment2.target=void\ createWallLayout()
+comment3.params=
+comment3.target=void\ prepare()
+numComments=4
